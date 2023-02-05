@@ -66,7 +66,7 @@ export const sendHello = async () => {
     params: [
       defaultSnapOrigin,
       {
-        method: 'hello',
+        method: 'fireCronjob'
       },
     ],
   });

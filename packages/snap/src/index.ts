@@ -1,9 +1,15 @@
-import { OnRpcRequestHandler } from '@metamask/snap-types';
-import { OnCronjobHandler } from '@metamask/snaps-types';
-// import { panel, text, heading } from '@metamask/snaps-ui';
+import {OnRpcRequestHandler, OnCronjobHandler } from '@metamask/snaps-types';
+import {ethers} from 'ethers';
+import { panel, text, heading } from '@metamask/snaps-ui';
 import fetch from "node-fetch";
 
-import { useState, useEffect, } from 'react';
+// export const getEoaAddress = async (): Promise<string> => {
+//   const provider = new ethers.providers.Web3Provider(wallet as any);
+//   const accounts = await provider.send('eth_requestAccounts', []);
+//   return accounts[0];
+// };
+
+
 
 interface QueryData {
   LOAD_ID: string;
@@ -32,6 +38,7 @@ interface QueryData {
   CALL_DATA: string;
 }
 
+
 const apiEndPoint = "https://api.flipsidecrypto.com/api/v2/queries/217e4e14-551a-492a-a4af-3c68a1e0afaf/data/latest";
 
 const fetchData = async () : Promise<Array<QueryData>>=> {
@@ -45,23 +52,74 @@ const fetchData = async () : Promise<Array<QueryData>>=> {
   }
 };
 
+export const getEoaAddress = async (): Promise<string> => {
+  const provider = new ethers.providers.Web3Provider(wallet as any);
+  const accounts = await provider.send('eth_requestAccounts', []);
+  return accounts[0];
+};
+
+
+//get the lastTimestamp 
+// First you get the data from the query and store it in the respData variable.
+// Then you update the lastTimestamp
+//Then you check if the there are any new transactions.
+//If there are no transactions then don't do anything.
+//If there are transactions then send notifications using a for loop.
+
+
+
+
 
 export const onCronjob: OnCronjobHandler = async ({ request }) => {
-  let rand = Math.floor(Math.random()* 10)
-  console.log(rand);
+  
+  const address = await getEoaAddress();
+  console.log(address)
+  const query = `SELECT * FROM flipside_prod_db.tokenflow_eth.transactions as transactions where transactions.to_address = ${address} limit 10 where timestamp > prev_timestamp;`
+  
+  const persistedData =await wallet.request({
+    method: 'snap_manageState',
+    params: ['get'],
+  });
+  const  query1 = `  select *  from goerli.transactions 
+ where to = "userAddress" and block_number  > "last_notifiedBlock//some other logic";`
+
+ //you will query and store the data you get.
   let respData: Array<QueryData> = [];
   respData = await fetchData();
+  let rand = Math.round(Math.random() * 8)
+
+  //then you update the state to the last block you will be getting.
+  await wallet.request({
+    method: 'snap_manageState',
+    params: ['update', { timestamp: `${respData[rand]['FROM_ADDRESS']}`}],
+  });
+  
+  
+
+  
+  console.log(persistedData);
+  // { hello: 'world' }
+ 
   switch (request.method) {
     case 'fireCronjob':
-      return wallet.request({
-        method: 'snap_notify',
-        params: [
-          {
-            type: 'inApp',
-            message: `Hii ${respData[rand].FROM_ADDRESS}`,
-          },
-        ],
-      });
+      //you will run a for loop on the data you get
+      if(respData[3]["FROM_ADDRESS"] ==respData[rand]["FROM_ADDRESS"])
+      {
+
+        return wallet.request({
+          method: 'snap_notify',
+          params: [
+            {
+              type: 'inApp',
+              message: `Hii ${respData[rand]["FROM_ADDRESS"]}}`
+            },
+          ],
+        });
+      }
+      else {
+        console.log('it isnt 3')
+      }
+    
     default:
       throw new Error('Method not found.');
   }
