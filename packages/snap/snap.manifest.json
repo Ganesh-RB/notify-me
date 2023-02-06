@@ -1,13 +1,13 @@
 {
   "version": "0.1.0",
-  "description": "An example Snap written in TypeScript.",
-  "proposedName": "TypeScript Example Snap",
+  "description": "Provide notification when a transaction is received",
+  "proposedName": "Transcition notification example snap",
   "repository": {
     "type": "git",
-    "url": "https://github.com/MetaMask/template-snap-monorepo.git"
+    "url": "https://github.com/Ganesh-RB/transition-notification-snap.git"
   },
   "source": {
-    "shasum": "fcb9b+WXI6XZi3q2hPcpfNH25LG9eVCKA0Va9cnIW20=",
+    "shasum": "O4829r265hugu5FE3GHBOeFeAQQQzJMDIZJWLvVyF2o=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
@@ -20,6 +20,7 @@
   "initialPermissions": {
     "snap_confirm": {},
     "snap_notify": {},
+    "snap_manageState": {},
     "endowment:network-access": {},
     "endowment:cronjob": {
       "jobs": [
