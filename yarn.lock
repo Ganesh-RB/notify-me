@@ -5,13 +5,6 @@ __metadata:
   version: 6
   cacheKey: 8
 
-"@adraffy/ens-normalize@npm:1.8.9":
-  version: 1.8.9
-  resolution: "@adraffy/ens-normalize@npm:1.8.9"
-  checksum: 17791dce03a4320a88c377136c48d0c16ac3e5b07aad321d028c8342fcf821b95c0082cd269cddd488472d1273e8157ae101f2e4e7f9e6be42667ed7ab9614d9
-  languageName: node
-  linkType: hard
-
 "@ampproject/remapping@npm:^2.1.0":
   version: 2.1.2
   resolution: "@ampproject/remapping@npm:2.1.2"
@@ -3420,17 +3413,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@metamask/snap-types@npm:^0.23.0":
-  version: 0.23.0
-  resolution: "@metamask/snap-types@npm:0.23.0"
-  dependencies:
-    "@metamask/providers": ^9.0.0
-    "@metamask/snap-utils": ^0.23.0
-    "@metamask/types": ^1.1.0
-  checksum: c84c3fe1b1a5a29e9297d2fed3efa6adf4f983c3a48f292afc07eb7d66bbed1d10924d5c42d58a3552cc2b7de601b22e207834982a46d535612a2e17d57246b7
-  languageName: node
-  linkType: hard
-
 "@metamask/snap-utils@npm:^0.22.0":
   version: 0.22.0
   resolution: "@metamask/snap-utils@npm:0.22.0"
@@ -3446,27 +3428,6 @@ __metadata:
     ses: ^0.15.17
     superstruct: ^0.16.5
   checksum: d22fa227236989e67fb93ca28a820191af7b5e6d04af2dacf300f2fd8e718b5d02c387c633a8286767df53ee5d33eacb160e9c176874bbe1a5e2415ad64bdc08
-  languageName: node
-  linkType: hard
-
-"@metamask/snap-utils@npm:^0.23.0":
-  version: 0.23.0
-  resolution: "@metamask/snap-utils@npm:0.23.0"
-  dependencies:
-    "@babel/core": ^7.18.6
-    "@babel/types": ^7.18.7
-    "@metamask/snap-types": ^0.23.0
-    "@metamask/utils": ^3.3.0
-    "@noble/hashes": ^1.1.3
-    "@scure/base": ^1.1.1
-    cron-parser: ^4.5.0
-    eth-rpc-errors: ^4.0.3
-    fast-deep-equal: ^3.1.3
-    rfdc: ^1.3.0
-    semver: ^7.3.7
-    ses: ^0.17.0
-    superstruct: ^0.16.7
-  checksum: 8aa8401ff5a57bce1dfed68a1a9f9af71d77cbea83aa08e391a34f2d2b4a52c35150287ad938e2d7c7a125db1b1667d54338496221d5a0e36b7fb9aae1986edb
   languageName: node
   linkType: hard
 
@@ -3575,7 +3536,6 @@ __metadata:
     "@metamask/eslint-config-jest": ^10.0.0
     "@metamask/eslint-config-nodejs": ^10.0.0
     "@metamask/eslint-config-typescript": ^10.0.0
-    "@metamask/snap-types": ^0.23.0
     "@metamask/snaps-types": ^0.28.0
     "@typescript-eslint/eslint-plugin": ^5.33.0
     "@typescript-eslint/parser": ^5.33.0
@@ -3586,7 +3546,6 @@ __metadata:
     eslint-plugin-jsdoc: ^39.2.9
     eslint-plugin-node: ^11.1.0
     eslint-plugin-prettier: ^4.2.1
-    ethers: ^6.0.2
     prettier: ^2.2.1
     prettier-plugin-packagejson: ^2.2.18
     typescript: ^4.7.4
@@ -3612,7 +3571,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@metamask/utils@npm:^3.3.0, @metamask/utils@npm:^3.4.0, @metamask/utils@npm:^3.4.1":
+"@metamask/utils@npm:^3.4.0, @metamask/utils@npm:^3.4.1":
   version: 3.4.1
   resolution: "@metamask/utils@npm:3.4.1"
   dependencies:
@@ -3686,24 +3645,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@noble/hashes@npm:1.1.2":
-  version: 1.1.2
-  resolution: "@noble/hashes@npm:1.1.2"
-  checksum: 3c2a8cb7c2e053811032f242155d870c5eb98844d924d69702244d48804cb03b42d4a666c49c2b71164420d8229cb9a6f242b972d50d5bb2f1d673b98b041de2
-  languageName: node
-  linkType: hard
-
 "@noble/hashes@npm:^1.1.3":
   version: 1.1.5
   resolution: "@noble/hashes@npm:1.1.5"
   checksum: de3f095a7ac1cbf5b4b3d09f193288d4f2eec35fbadf2ed9fd7e47d8a3042fef410052ba62dc0296a185f994c11192f5357fdb1bd9178c905efd82e946c53b00
-  languageName: node
-  linkType: hard
-
-"@noble/secp256k1@npm:1.7.1":
-  version: 1.7.1
-  resolution: "@noble/secp256k1@npm:1.7.1"
-  checksum: d2301f1f7690368d8409a3152450458f27e54df47e3f917292de3de82c298770890c2de7c967d237eff9c95b70af485389a9695f73eb05a43e2bd562d18b18cb
   languageName: node
   linkType: hard
 
@@ -5502,13 +5447,6 @@ __metadata:
   version: 1.2.1
   resolution: "address@npm:1.2.1"
   checksum: e4c0f961464ccad09c3f7ed3a8d12f609354a87dd1ad379e43661e9684446fbf158be3edeef85e1590dfc6c88c0897c5908bc18f232eb86e43993a2ada5820fa
-  languageName: node
-  linkType: hard
-
-"aes-js@npm:4.0.0-beta.3":
-  version: 4.0.0-beta.3
-  resolution: "aes-js@npm:4.0.0-beta.3"
-  checksum: 2336feee1e4a7722f5b6ede192b0a22881fd6f9310b36ec10e62b6f015f9fddf812c1d8a61b9743ab710811fd0b0d7aad844178f11e7cb1439bbc14246c6c93e
   languageName: node
   linkType: hard
 
@@ -9288,20 +9226,6 @@ __metadata:
   dependencies:
     fast-safe-stringify: ^2.0.6
   checksum: 5fa31d1a10fdb340733b9a55e38e7687222c501052ca20743cef4d0c911a9bbcc0cad54aa6bf3e4b428604c071ff519803060e1cbc79ddb7c9257c11d407d32a
-  languageName: node
-  linkType: hard
-
-"ethers@npm:^6.0.2":
-  version: 6.0.2
-  resolution: "ethers@npm:6.0.2"
-  dependencies:
-    "@adraffy/ens-normalize": 1.8.9
-    "@noble/hashes": 1.1.2
-    "@noble/secp256k1": 1.7.1
-    aes-js: 4.0.0-beta.3
-    tslib: 2.4.0
-    ws: 8.5.0
-  checksum: 7e012ca49ccc326c1ff63f8d4a00cc71f95ae69167adb24ab73148f386714866479eda429ea2330ea93241cf6afbd3a086d43a00a75b483f99fb8ef597676a85
   languageName: node
   linkType: hard
 
@@ -16005,13 +15929,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ses@npm:^0.17.0":
-  version: 0.17.0
-  resolution: "ses@npm:0.17.0"
-  checksum: c4c668de819b5366da7a9797d4ab0ec9c3efe4904ea64453cad5a48b659c77b817d589584019f5f7ca42802f640dcc706241543c1df00282473320a77397b641
-  languageName: node
-  linkType: hard
-
 "ses@npm:^0.18.1":
   version: 0.18.1
   resolution: "ses@npm:0.18.1"
@@ -16933,13 +16850,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"superstruct@npm:^0.16.7":
-  version: 0.16.7
-  resolution: "superstruct@npm:0.16.7"
-  checksum: c8c855ff6945da8a41048c6d236de7b1af5d4d9c31742b3ee54d65647c31597488620281f65e095d5efc9e2fbdaad529b8c8f2506c12569d428467c835a21477
-  languageName: node
-  linkType: hard
-
 "superstruct@npm:^1.0.3":
   version: 1.0.3
   resolution: "superstruct@npm:1.0.3"
@@ -17285,17 +17195,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:2.4.0, tslib@npm:^2.0.3, tslib@npm:^2.1.0, tslib@npm:^2.4.0, tslib@npm:~2.4.0":
-  version: 2.4.0
-  resolution: "tslib@npm:2.4.0"
-  checksum: 8c4aa6a3c5a754bf76aefc38026134180c053b7bd2f81338cb5e5ebf96fefa0f417bff221592bf801077f5bf990562f6264fecbc42cd3309b33872cb6fc3b113
-  languageName: node
-  linkType: hard
-
 "tslib@npm:^1.10.0, tslib@npm:^1.8.1, tslib@npm:^1.9.0":
   version: 1.14.1
   resolution: "tslib@npm:1.14.1"
   checksum: dbe628ef87f66691d5d2959b3e41b9ca0045c3ee3c7c7b906cc1e328b39f199bb1ad9e671c39025bd56122ac57dfbf7385a94843b1cc07c60a4db74795829acd
+  languageName: node
+  linkType: hard
+
+"tslib@npm:^2.0.3, tslib@npm:^2.1.0, tslib@npm:^2.4.0, tslib@npm:~2.4.0":
+  version: 2.4.0
+  resolution: "tslib@npm:2.4.0"
+  checksum: 8c4aa6a3c5a754bf76aefc38026134180c053b7bd2f81338cb5e5ebf96fefa0f417bff221592bf801077f5bf990562f6264fecbc42cd3309b33872cb6fc3b113
   languageName: node
   linkType: hard
 
@@ -18089,21 +17999,6 @@ __metadata:
     signal-exit: ^3.0.2
     typedarray-to-buffer: ^3.1.5
   checksum: c55b24617cc61c3a4379f425fc62a386cc51916a9b9d993f39734d005a09d5a4bb748bc251f1304e7abd71d0a26d339996c275955f527a131b1dcded67878280
-  languageName: node
-  linkType: hard
-
-"ws@npm:8.5.0":
-  version: 8.5.0
-  resolution: "ws@npm:8.5.0"
-  peerDependencies:
-    bufferutil: ^4.0.1
-    utf-8-validate: ^5.0.2
-  peerDependenciesMeta:
-    bufferutil:
-      optional: true
-    utf-8-validate:
-      optional: true
-  checksum: 76f2f90e40344bf18fd544194e7067812fb1372b2a37865678d8f12afe4b478ff2ebc0c7c0aff82cd5e6b66fc43d889eec0f1865c2365d8f7a66d92da7744a77
   languageName: node
   linkType: hard
 

@@ -1,17 +1,17 @@
 {
   "version": "0.1.0",
   "description": "Provide notification when a transaction is received",
-  "proposedName": "Transcition notification example snap",
+  "proposedName": "notifyMe",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Ganesh-RB/transition-notification-snap.git"
+    "url": "https://github.com/MetaMask/template-snap-monorepo.git"
   },
   "source": {
-    "shasum": "O4829r265hugu5FE3GHBOeFeAQQQzJMDIZJWLvVyF2o=",
+    "shasum": "kRlxzCUSZFYWe0EQ4q1sz/xIqPxW8je97FQ7/WnWXB0=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
-        "iconPath": "images/icon.svg",
+        "iconPath": "images/notification-icon.svg",
         "packageName": "snap",
         "registry": "https://registry.npmjs.org/"
       }
