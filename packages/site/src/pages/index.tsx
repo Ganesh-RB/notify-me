@@ -6,6 +6,7 @@ import {
   getSnap,
   sendHello,
   sendOptIn,
+  sendOptOut,
   shouldDisplayReconnectButton,
 } from '../utils';
 import {
@@ -140,7 +141,7 @@ const Index = () => {
   };
   const handleOptOutClick = async () => {
     try {
-      // await sendOptIn();
+      await sendOptOut();
       setOptIn(false);
       console.log('opted out');
     } catch (e) {

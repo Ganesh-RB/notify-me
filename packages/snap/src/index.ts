@@ -18,9 +18,6 @@ export const onCronjob: OnCronjobHandler = async ({ request }) => {
     params: ['get'],
   });
 
-  // console.log("Printing persisted data")
-  // console.log(persistedData)
-
   let address = '';
   let lastTimestamp = 0;
   let accounts: string[] = [];
@@ -194,13 +191,25 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
         params: [
           {
             prompt: getMessage(origin),
-            description: 'Notice:',
+            description: 'Notice: From NotifyMe',
             textAreaContent: `You Opted in to receive notifications for your account ${account[0]}`,
           },
         ],
       });
 
-      break;
+    case 'optOut':
+      console.log('optOut invoked');
+      
+      return wallet.request({
+        method: 'snap_confirm',
+        params: [
+          {
+            prompt: getMessage(origin),
+            description: 'Notice: From NotifyMe',
+            textAreaContent: `You Opted Out for receive notifications for your account ${account[0]}`,
+          },
+        ],
+      });
 
     default:
       throw new Error('Method not found.');
