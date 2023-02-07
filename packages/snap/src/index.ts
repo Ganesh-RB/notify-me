@@ -84,12 +84,16 @@ export const onCronjob: OnCronjobHandler = async ({ request }) => {
             data[i].from.length,
           )}`;
 
+          const notificationValueField = `${data[i].value / Math.pow(10, data[i].tokenDecimal)}`;
+          const notificationTokenType = (data[i].tokenSymbol === null) ? 'ETH' : data[i].tokenSymbol;
+
+
           return wallet.request({
             method: 'snap_notify',
             params: [
               {
                 type: 'inApp',
-                message: `✅🔔received ETH from ${notificationFromField}`,
+                message: `✅received ${notificationValueField} ${notificationTokenType} from ${notificationFromField}`,
               },
             ],
           });
@@ -105,7 +109,7 @@ export const onCronjob: OnCronjobHandler = async ({ request }) => {
 };
 
 /**
- * ❌🚫
+ * 
  * Get a message from the origin. For demonstration purposes only.
  *
  * @param originString - The origin string.
