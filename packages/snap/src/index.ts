@@ -71,14 +71,14 @@ export const onCronjob: OnCronjobHandler = async ({ request }) => {
           //   return res;
           // });
 
-          let msg = await spamCheckMessage(data[i].from, data[i].blockNumber);
+          let msg = await spamCheckMessage(data[i].from, data[i].blockNumber, data[i].contractAddress);
           
           return wallet.request({
             method: 'snap_notify',
             params: [
               {
                 type: 'inApp',
-                message: `received ETH from ${notificationFromField} ${msg}`
+                message: `Got ${data[i].tokenSymbol} from ${notificationFromField} ${msg}`,
               },
             ],
           });

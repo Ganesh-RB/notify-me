@@ -19,6 +19,7 @@ export interface QueryResult {
     confirmations: number,
     methodId: string,
     functionName: string,
+    tokenSymbol: string
 }
 
 /* 
@@ -27,13 +28,16 @@ All endpoints url : https://docs.etherscan.io/getting-started/endpoint-urls
 
 export const getApiEndPoint = (accountNo: string, startBlock: number) => {
 
-    return `https://api-goerli.etherscan.io/api?module=account&action=txlist&address=${accountNo}&tag&startblock=${startBlock}&endblock=99999999&page=1&offset=10&sort=desc&apikey=FTEX18HGQZCHFNEQSVXMY5G5Z23JU3DJP2`
+    //return `https://api-goerli.etherscan.io/api?module=account&action=txlist&address=${accountNo}&tag&startblock=${startBlock}&endblock=99999999&page=1&offset=10&sort=desc&apikey=FTEX18HGQZCHFNEQSVXMY5G5Z23JU3DJP2`
+    return `https://api-goerli.etherscan.io/api?module=account&action=tokentx&address=${accountNo}&tag&startblock=${startBlock}&endblock=99999999&page=1&offset=10&sort=desc&apikey=FTEX18HGQZCHFNEQSVXMY5G5Z23JU3DJP2`
+
 }
 
-export const spamCheckMessage = async (accountNo: string, checkBlock: number) => {
-    const spamLimit:number = 50; //5 for trials, 50 for final
-    const checkRange:number = 3; //30 for trials, 3 for final
-    const address:string = `https://api-goerli.etherscan.io/api?module=account&action=txlist&address=${accountNo}&tag&startblock=${checkBlock-checkRange}&endblock=${checkBlock+checkRange}&page=1&offset=1000&sort=desc&apikey=FTEX18HGQZCHFNEQSVXMY5G5Z23JU3DJP2`;
+export const spamCheckMessage = async (accountNo: string, checkBlock: number, contractAddress: string) => {
+    const spamLimit:number = 2; //5 for trials, 50 for final
+    const checkRange:number = 100; //30 for trials, 3 for final
+    const address:string = `https://api-goerli.etherscan.io/api?module=account&action=tokentx&address=${accountNo}&contractaddress=${contractAddress}&tag&startblock=${checkBlock-checkRange}&endblock=${checkBlock+checkRange}&page=1&offset=1000&sort=desc&apikey=FTEX18HGQZCHFNEQSVXMY5G5Z23JU3DJP2`;
+    console.log(address);
     const senderData:any = await fetchData( address ).then((res) => {
         return res;
       });
