@@ -72,4 +72,34 @@ export const sendHello = async () => {
   });
 };
 
+/**
+ *
+ */
+export const sendOptIn = async () => {
+  await window.ethereum.request({
+    method: 'wallet_invokeSnap',
+    params: [
+      defaultSnapOrigin,
+      {
+        method: 'optIn',
+      },
+    ],
+  });
+};
+
+
+/**
+ *
+ */
+export const sendOptOut = async () => {
+  await window.ethereum.request({
+    method: 'wallet_invokeSnap',
+    params: [
+      defaultSnapOrigin,
+      {
+        method: 'optOut',
+      },
+    ],
+  });
+};
 export const isLocalSnap = (snapId: string) => snapId.startsWith('local:');

@@ -2,8 +2,8 @@ import { ComponentProps } from 'react';
 import styled from 'styled-components';
 import { MetamaskState } from '../hooks';
 import { ReactComponent as FlaskFox } from '../assets/flask_fox.svg';
+import { ReactComponent as NotifIcon } from '../assets/notification-icon.svg'; 
 import { shouldDisplayReconnectButton } from '../utils';
-
 const Link = styled.a`
   display: flex;
   align-self: flex-start;
@@ -94,10 +94,12 @@ export const ReconnectButton = (props: ComponentProps<typeof Button>) => {
   );
 };
 
-export const SendHelloButton = (props: ComponentProps<typeof Button>) => {
-  return <Button {...props}>Send message</Button>;
+export const OptInButton = (props: ComponentProps<typeof Button>) => {
+  return <Button {...props}><NotifIcon/> Opt In </Button>;
 };
-
+export const OptOutButton = (props: ComponentProps<typeof Button>) => {
+  return <Button {...props}><NotifIcon/> Opt Out </Button>;
+};
 export const HeaderButtons = ({
   state,
   onConnectClick,

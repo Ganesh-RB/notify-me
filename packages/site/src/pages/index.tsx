@@ -1,17 +1,20 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import styled from 'styled-components';
 import { MetamaskActions, MetaMaskContext } from '../hooks';
 import {
   connectSnap,
   getSnap,
   sendHello,
+  sendOptIn,
+  sendOptOut,
   shouldDisplayReconnectButton,
 } from '../utils';
 import {
   ConnectButton,
   InstallFlaskButton,
   ReconnectButton,
-  SendHelloButton,
+  OptInButton,
+  OptOutButton,
   Card,
 } from '../components';
 
@@ -101,7 +104,7 @@ const ErrorMessage = styled.div`
 
 const Index = () => {
   const [state, dispatch] = useContext(MetaMaskContext);
-
+  const [optIn, setOptIn] = useState(false);
   const handleConnectClick = async () => {
     try {
       await connectSnap();
@@ -126,14 +129,35 @@ const Index = () => {
     }
   };
 
+  const handleOptInClick = async () => {
+    try {
+      await sendOptIn();
+      setOptIn(true);
+      console.log('opted in');
+    } catch (e) {
+      console.error(e);
+      dispatch({ type: MetamaskActions.SetError, payload: e });
+    }
+  };
+  const handleOptOutClick = async () => {
+    try {
+      await sendOptOut();
+      setOptIn(false);
+      console.log('opted out');
+    } catch (e) {
+      console.error(e);
+      dispatch({ type: MetamaskActions.SetError, payload: e });
+    }
+  };
+  console.log(optIn);
   return (
     <Container>
       <Heading>
-        Welcome to <Span>template-snap</Span>
+        Welcome to <Span>NotifyMe</Span>
       </Heading>
-      <Subtitle>
+      {/* <Subtitle>
         Get started by editing <code>src/index.ts</code>
-      </Subtitle>
+      </Subtitle> */}
       <CardContainer>
         {state.error && (
           <ErrorMessage>
@@ -183,14 +207,14 @@ const Index = () => {
             disabled={!state.installedSnap}
           />
         )}
-        <Card
+        {(optIn)?<Card
           content={{
-            title: 'Send Hello message',
+            title: 'Opt-out for notificaions',
             description:
-              'Display a custom message within a confirmation screen in MetaMask.',
+              'Don\'t Get notified when you receive tokens',
             button: (
-              <SendHelloButton
-                onClick={handleSendHelloClick}
+              <OptOutButton
+                onClick={handleOptOutClick}
                 disabled={!state.installedSnap}
               />
             ),
@@ -201,15 +225,33 @@ const Index = () => {
             Boolean(state.installedSnap) &&
             !shouldDisplayReconnectButton(state.installedSnap)
           }
-        />
-        <Notice>
+        />:<Card
+        content={{
+          title: 'Opt-in for notificaions',
+          description:
+            'Get notified when you receive tokens',
+          button: (
+            <OptInButton
+              onClick={handleOptInClick}
+              disabled={!state.installedSnap}
+            />
+          ),
+        }}
+        disabled={!state.installedSnap}
+        fullWidth={
+          state.isFlask &&
+          Boolean(state.installedSnap) &&
+          !shouldDisplayReconnectButton(state.installedSnap)
+        }
+      />}
+        {/* <Notice>
           <p>
             Please note that the <b>snap.manifest.json</b> and{' '}
             <b>package.json</b> must be located in the server root directory and
             the bundle must be hosted at the location specified by the location
             field.
           </p>
-        </Notice>
+        </Notice> */}
       </CardContainer>
     </Container>
   );
