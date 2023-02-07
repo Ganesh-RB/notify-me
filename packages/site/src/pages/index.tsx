@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import styled from 'styled-components';
 import { MetamaskActions, MetaMaskContext } from '../hooks';
 import {
@@ -12,7 +12,8 @@ import {
   ConnectButton,
   InstallFlaskButton,
   ReconnectButton,
-  SendHelloButton,
+  OptInButton,
+  OptOutButton,
   Card,
 } from '../components';
 
@@ -102,7 +103,7 @@ const ErrorMessage = styled.div`
 
 const Index = () => {
   const [state, dispatch] = useContext(MetaMaskContext);
-
+  const [optIn, setOptIn] = useState(false);
   const handleConnectClick = async () => {
     try {
       await connectSnap();
@@ -130,12 +131,24 @@ const Index = () => {
   const handleOptInClick = async () => {
     try {
       await sendOptIn();
+      setOptIn(true);
+      console.log('opted in');
     } catch (e) {
       console.error(e);
       dispatch({ type: MetamaskActions.SetError, payload: e });
     }
   };
-
+  const handleOptOutClick = async () => {
+    try {
+      // await sendOptIn();
+      setOptIn(false);
+      console.log('opted out');
+    } catch (e) {
+      console.error(e);
+      dispatch({ type: MetamaskActions.SetError, payload: e });
+    }
+  };
+  console.log(optIn);
   return (
     <Container>
       <Heading>
@@ -193,14 +206,14 @@ const Index = () => {
             disabled={!state.installedSnap}
           />
         )}
-        <Card
+        {(optIn)?<Card
           content={{
-            title: 'Opt-in for notificaions',
+            title: 'Opt-out for notificaions',
             description:
-              'Get notified when you receive tokens',
+              'Don\'t Get notified when you receive tokens',
             button: (
-              <SendHelloButton
-                onClick={handleOptInClick}
+              <OptOutButton
+                onClick={handleOptOutClick}
                 disabled={!state.installedSnap}
               />
             ),
@@ -211,7 +224,25 @@ const Index = () => {
             Boolean(state.installedSnap) &&
             !shouldDisplayReconnectButton(state.installedSnap)
           }
-        />
+        />:<Card
+        content={{
+          title: 'Opt-in for notificaions',
+          description:
+            'Get notified when you receive tokens',
+          button: (
+            <OptInButton
+              onClick={handleOptInClick}
+              disabled={!state.installedSnap}
+            />
+          ),
+        }}
+        disabled={!state.installedSnap}
+        fullWidth={
+          state.isFlask &&
+          Boolean(state.installedSnap) &&
+          !shouldDisplayReconnectButton(state.installedSnap)
+        }
+      />}
         {/* <Notice>
           <p>
             Please note that the <b>snap.manifest.json</b> and{' '}
