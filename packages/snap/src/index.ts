@@ -8,6 +8,7 @@ import {
   getApiEndPoint,
   fetchData,
   spamCheckMessage,
+  getLastTransaction,
 } from './utils';
 
 export const onCronjob: OnCronjobHandler = async ({ request }) => {
@@ -161,17 +162,43 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
       });
 
       if (persistedData === null) {
-        await wallet.request({
-          method: 'snap_manageState',
-          params: [
-            'update',
-            {
-              lastNotifiedBlock: `0`,
-              lastTimestamp: `0`,
-              accounts: account,
-            },
-          ],
-        });
+
+        const lastTransaction = await getLastTransaction(account[0]).then(
+          (res) => {
+            return res;
+          },
+        );
+
+        try {
+
+          await wallet.request({
+            method: 'snap_manageState',
+            params: [
+              'update',
+              {
+                lastNotifiedBlock: `${lastTransaction.blockNumber}`,
+                lastTimestamp: `${lastTransaction.timeStamp}`,
+                accounts: account,
+              },
+            ],
+          });
+
+        } catch (err) {
+          console.log(err);
+
+          await wallet.request({
+            method: 'snap_manageState',
+            params: [
+              'update',
+              {
+                lastNotifiedBlock: `0`,
+                lastTimestamp: `0`,
+                accounts: account,
+              },
+            ],
+          });
+        }
+        
       } else {
         await wallet.request({
           method: 'snap_manageState',
@@ -200,13 +227,21 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
     case 'optOut':
       console.log('optOut invoked');
       
+      await wallet.request({
+        method: 'snap_manageState',
+        params: [
+          'clear',
+        ],
+      });
+      
+
       return wallet.request({
         method: 'snap_confirm',
         params: [
           {
             prompt: getMessage(origin),
             description: 'Notice: From NotifyMe',
-            textAreaContent: `You Opted Out for receive notifications for your account ${account[0]}`,
+            textAreaContent: `You Opted Out for receive notifications for your account `,
           },
         ],
       });

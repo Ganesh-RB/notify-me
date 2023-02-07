@@ -32,6 +32,14 @@ export const getApiEndPoint = (accountNo: string, startBlock: number) => {
   return `https://api-goerli.etherscan.io/api?module=account&action=tokentx&address=${accountNo}&tag&startblock=${startBlock}&endblock=99999999&page=1&offset=100&sort=asc&apikey=FTEX18HGQZCHFNEQSVXMY5G5Z23JU3DJP2`;
 };
 
+export const getLastTransaction = async (accountNo: string) => {
+  const address = `https://api-goerli.etherscan.io/api?module=account&action=tokentx&address=${accountNo}&tag&startblock=0&endblock=99999999&page=1&offset=1&sort=desc&apikey=FTEX18HGQZCHFNEQSVXMY5G5Z23JU3DJP2`;
+  const senderData: QueryResult|any = await fetchData(address).then((res) => {
+    return res;
+  });
+  return senderData[0];
+};
+
 export const spamCheckMessage = async (
   accountNo: string,
   checkBlock: number,
