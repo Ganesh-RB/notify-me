@@ -89,7 +89,7 @@ export const onCronjob: OnCronjobHandler = async ({ request }) => {
                 params: [
                   {
                     type: 'inApp',
-                    message: `${msg} got ${notificationValueField} ${notificationTokenType} from ${notificationFromField}`,
+                    message: `${msg} Received ${notificationValueField} ${notificationTokenType} from ${notificationFromField}`,
                   },
                 ],
               });
@@ -233,7 +233,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
           'clear',
         ],
       });
-      
+
 
       return wallet.request({
         method: 'snap_confirm',
