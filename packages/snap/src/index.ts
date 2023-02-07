@@ -7,6 +7,7 @@ import {
   getAccount,
   getApiEndPoint,
   fetchData,
+  spamCheckMessage
 } from './utils';
 
 export const onCronjob: OnCronjobHandler = async ({ request }) => {
@@ -40,57 +41,63 @@ export const onCronjob: OnCronjobHandler = async ({ request }) => {
 
     console.log('Printing data');
     console.log(data);
-
+  
     switch (request.method) {
-      case 'fireCronjob':
-        let i = data.length - 1;
-        // console.log(`Data length is ${data.length}`)
-        while (i >= 0) {
-          // console.log(`printing data for ${i}`)
-          // console.log(data[i])
+      case 'sendNotification':
+        try {
 
-          if (data[i].to === accounts[0] && data[i].timeStamp > lastTimestamp) {
-            // console.log("Sending notification")
-            await wallet.request({
-              method: 'snap_manageState',
-              params: [
-                'update',
-                {
-                  lastNotifiedBlock: `${data[i].blockNumber}`,
-                  lastTimestamp: `${data[i].timeStamp}`,
-                  accounts : accounts,
-                },
-              ],
-            });
-            // console.log(`received ${data[i].value} ETH from ${data[i].from}`)
-            // console.log(`received ${data[i].value} ETH from ${data[i].from}`.length)
+          let i = 0;
+          // console.log(`Data length is ${data.length}`)
+          while (i < data.length) {
+            // console.log(`printing data for ${i}`)
+            // console.log(data[i])
 
-            const notificationFromField = `${data[i].from.substring(
-              0,
-              4,
-            )}...${data[i].from.substring(
-              data[i].from.length - 4,
-              data[i].from.length,
-            )}`;
+            if (data[i].to === accounts[0] && data[i].timeStamp > lastTimestamp) {
+              // console.log("Sending notification")
+              await wallet.request({
+                method: 'snap_manageState',
+                params: [
+                  'update',
+                  {
+                    lastNotifiedBlock: `${data[i].blockNumber}`,
+                    lastTimestamp: `${data[i].timeStamp}`,
+                    accounts : accounts,
+                  },
+                ],
+              });
+              // console.log(`received ${data[i].value} ETH from ${data[i].from}`)
+              // console.log(`received ${data[i].value} ETH from ${data[i].from}`.length)
+  
+              const notificationFromField = `${data[i].from.substring(
+                0,
+                4,
+              )}...${data[i].from.substring(
+                data[i].from.length - 4,
+                data[i].from.length,
+              )}`;
+  
+              const notificationValueField = `${data[i].value / Math.pow(10, data[i].tokenDecimal)}`;
+              const notificationTokenType = (data[i].tokenSymbol === null) ? 'ETH' : data[i].tokenSymbol;
 
-            const notificationValueField = `${data[i].value / Math.pow(10, data[i].tokenDecimal)}`;
-            const notificationTokenType = (data[i].tokenSymbol === null) ? 'ETH' : data[i].tokenSymbol;
-
-
-            return wallet.request({
-              method: 'snap_notify',
-              params: [
-                {
-                  type: 'inApp',
-                  message: `✅ received ${notificationValueField} ${notificationTokenType} from ${notificationFromField}`,
-                },
-              ],
-            });
+              let msg = await spamCheckMessage(data[i].from, data[i].blockNumber, data[i].contractAddress);
+              return wallet.request({
+                method: 'snap_notify',
+                params: [
+                  {
+                    type: 'inApp',
+                    message: `${msg} got ${notificationValueField} ${notificationTokenType} from ${notificationFromField}`,
+                  },
+                ],
+              });
+            }
+            // console.log(`Notification was send previously for ${i}`)
+            i++;
           }
-          // console.log(`Notification was send previously for ${i}`)
-          i--;
+          break;
         }
-        break;
+        catch (err) {
+          console.log(err);
+        }
 
       default:
         throw new Error('Method not found.');
