@@ -73,7 +73,7 @@ export const sendHello = async () => {
 };
 
 /**
- * 
+ *
  */
 export const sendOptIn = async () => {
   await window.ethereum.request({
