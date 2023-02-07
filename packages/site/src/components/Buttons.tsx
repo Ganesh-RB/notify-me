@@ -2,6 +2,7 @@ import { ComponentProps } from 'react';
 import styled from 'styled-components';
 import { MetamaskState } from '../hooks';
 import { ReactComponent as FlaskFox } from '../assets/flask_fox.svg';
+// import { ReactComponent as notifyIcon } from '../assets/notificaion-icon.svg';
 import { shouldDisplayReconnectButton } from '../utils';
 
 const Link = styled.a`
@@ -95,7 +96,7 @@ export const ReconnectButton = (props: ComponentProps<typeof Button>) => {
 };
 
 export const SendHelloButton = (props: ComponentProps<typeof Button>) => {
-  return <Button {...props}>Send message</Button>;
+  return <Button {...props}>Opt in </Button>;
 };
 
 export const HeaderButtons = ({

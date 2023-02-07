@@ -24,87 +24,77 @@ export const onCronjob: OnCronjobHandler = async ({ request }) => {
   let lastTimestamp = 0;
   let accounts: string[] = [];
 
-  if (persistedData === null) {
-    console.log(
-      'Persisted data is null!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',
-    );
-    const account = await getAccount().then((res) => {
-      console.log('Printing accounts details');
-      console.log(res);
-      return res;
-    });
-    accounts = account;
-    console.log(accounts[0]);
-    address = getApiEndPoint(accounts[0], 0);
-    console.log(address);
-  } else {
+  if (persistedData !== null) {
+
     accounts = persistedData.accounts;
     console.log(accounts[0]);
     address = getApiEndPoint(accounts[0], persistedData.lastNotifiedBlock);
     console.log(address);
     lastTimestamp = persistedData.lastTimestamp;
-  }
 
-  const data = await fetchData(address).then((res) => {
-    return res;
-  });
+  
 
-  console.log('Printing data');
-  console.log(data);
+    const data = await fetchData(address).then((res) => {
+      return res;
+    });
 
-  switch (request.method) {
-    case 'fireCronjob':
-      let i = data.length - 1;
-      // console.log(`Data length is ${data.length}`)
-      while (i >= 0) {
-        // console.log(`printing data for ${i}`)
-        // console.log(data[i])
+    console.log('Printing data');
+    console.log(data);
 
-        if (data[i].to === accounts[0] && data[i].timeStamp > lastTimestamp) {
-          // console.log("Sending notification")
-          await wallet.request({
-            method: 'snap_manageState',
-            params: [
-              'update',
-              {
-                lastNotifiedBlock: `${data[i].blockNumber}`,
-                lastTimestamp: `${data[i].timeStamp}`,
-                accounts,
-              },
-            ],
-          });
-          // console.log(`received ${data[i].value} ETH from ${data[i].from}`)
-          // console.log(`received ${data[i].value} ETH from ${data[i].from}`.length)
+    switch (request.method) {
+      case 'fireCronjob':
+        let i = data.length - 1;
+        // console.log(`Data length is ${data.length}`)
+        while (i >= 0) {
+          // console.log(`printing data for ${i}`)
+          // console.log(data[i])
 
-          const notificationFromField = `${data[i].from.substring(
-            0,
-            4,
-          )}...${data[i].from.substring(
-            data[i].from.length - 4,
-            data[i].from.length,
-          )}`;
+          if (data[i].to === accounts[0] && data[i].timeStamp > lastTimestamp) {
+            // console.log("Sending notification")
+            await wallet.request({
+              method: 'snap_manageState',
+              params: [
+                'update',
+                {
+                  lastNotifiedBlock: `${data[i].blockNumber}`,
+                  lastTimestamp: `${data[i].timeStamp}`,
+                  accounts : accounts,
+                },
+              ],
+            });
+            // console.log(`received ${data[i].value} ETH from ${data[i].from}`)
+            // console.log(`received ${data[i].value} ETH from ${data[i].from}`.length)
 
-          const notificationValueField = `${data[i].value / Math.pow(10, data[i].tokenDecimal)}`;
-          const notificationTokenType = (data[i].tokenSymbol === null) ? 'ETH' : data[i].tokenSymbol;
+            const notificationFromField = `${data[i].from.substring(
+              0,
+              4,
+            )}...${data[i].from.substring(
+              data[i].from.length - 4,
+              data[i].from.length,
+            )}`;
+
+            const notificationValueField = `${data[i].value / Math.pow(10, data[i].tokenDecimal)}`;
+            const notificationTokenType = (data[i].tokenSymbol === null) ? 'ETH' : data[i].tokenSymbol;
 
 
-          return wallet.request({
-            method: 'snap_notify',
-            params: [
-              {
-                type: 'inApp',
-                message: `✅received ${notificationValueField} ${notificationTokenType} from ${notificationFromField}`,
-              },
-            ],
-          });
+            return wallet.request({
+              method: 'snap_notify',
+              params: [
+                {
+                  type: 'inApp',
+                  message: `✅ received ${notificationValueField} ${notificationTokenType} from ${notificationFromField}`,
+                },
+              ],
+            });
+          }
+          // console.log(`Notification was send previously for ${i}`)
+          i--;
         }
-        // console.log(`Notification was send previously for ${i}`)
-        i--;
-      }
-      break;
+        break;
 
-    default:
-      throw new Error('Method not found.');
+      default:
+        throw new Error('Method not found.');
+    }
   }
 };
 
@@ -133,11 +123,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
   origin,
   request,
 }) => {
-  // * Note: We are clearning snap_state for test purpose only.
-  await wallet.request({
-    method: 'snap_manageState',
-    params: ['clear'],
-  });
+
 
   switch (request.method) {
     case 'hello':
@@ -153,6 +139,63 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
           },
         ],
       });
+    
+    case 'optIn':
+      console.log('optIn invoked');
+      const account = await getAccount().then((res) => {
+        console.log('Printing accounts details');
+        console.log(res);
+        return res;
+      });
+
+      const persistedData: snapState | any = await wallet.request({
+        method: 'snap_manageState',
+        params: ['get'],
+      });
+
+      if (persistedData === null) {
+        await wallet.request({
+          method: 'snap_manageState',
+          params: [
+            'update',
+            {
+              lastNotifiedBlock: `0`,
+              lastTimestamp: `0`,
+              accounts: account,
+            },
+          ],
+        });
+      } else {
+        await wallet.request({
+          method: 'snap_manageState',
+          params: [
+            'update',
+            {
+              lastNotifiedBlock: `${persistedData.lastNotifiedBlock}`,
+              lastTimestamp: `${persistedData.lastTimestamp}`,
+              accounts: account,
+            },
+          ],
+        });
+      }
+      
+
+
+      return wallet.request({
+        method: 'snap_confirm',
+        params: [
+          {
+            prompt: getMessage(origin),
+            description:
+              'Notice:',
+            textAreaContent: `You Opted in to receive notifications for your account ${account[0]}`,
+          },
+        ],
+      });
+
+      break;
+
+      
 
     default:
       throw new Error('Method not found.');

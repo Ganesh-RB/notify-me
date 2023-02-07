@@ -5,6 +5,7 @@ import {
   connectSnap,
   getSnap,
   sendHello,
+  sendOptIn,
   shouldDisplayReconnectButton,
 } from '../utils';
 import {
@@ -126,14 +127,23 @@ const Index = () => {
     }
   };
 
+  const handleOptInClick = async () => {
+    try {
+      await sendOptIn();
+    } catch (e) {
+      console.error(e);
+      dispatch({ type: MetamaskActions.SetError, payload: e });
+    }
+  };
+
   return (
     <Container>
       <Heading>
-        Welcome to <Span>template-snap</Span>
+        Welcome to <Span>NotifyMe</Span>
       </Heading>
-      <Subtitle>
+      {/* <Subtitle>
         Get started by editing <code>src/index.ts</code>
-      </Subtitle>
+      </Subtitle> */}
       <CardContainer>
         {state.error && (
           <ErrorMessage>
@@ -185,12 +195,12 @@ const Index = () => {
         )}
         <Card
           content={{
-            title: 'Send Hello message',
+            title: 'Opt-in for notificaions',
             description:
-              'Display a custom message within a confirmation screen in MetaMask.',
+              'Get notified when you receive tokens',
             button: (
               <SendHelloButton
-                onClick={handleSendHelloClick}
+                onClick={handleOptInClick}
                 disabled={!state.installedSnap}
               />
             ),
@@ -202,14 +212,14 @@ const Index = () => {
             !shouldDisplayReconnectButton(state.installedSnap)
           }
         />
-        <Notice>
+        {/* <Notice>
           <p>
             Please note that the <b>snap.manifest.json</b> and{' '}
             <b>package.json</b> must be located in the server root directory and
             the bundle must be hosted at the location specified by the location
             field.
           </p>
-        </Notice>
+        </Notice> */}
       </CardContainer>
     </Container>
   );
