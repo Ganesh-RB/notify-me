@@ -1,6 +1,4 @@
 import { OnRpcRequestHandler, OnCronjobHandler } from '@metamask/snaps-types';
-import { panel, text, heading } from '@metamask/snaps-ui';
-import fetch from "node-fetch";
 import { QueryResult, snapState, getAccount, getApiEndPoint, fetchData, spamCheckMessage } from './utils';
 
 export const onCronjob: OnCronjobHandler = async ({ request }) => {
@@ -43,21 +41,25 @@ export const onCronjob: OnCronjobHandler = async ({ request }) => {
     return res;
   });
 
-
-
+  // console.log("request.method")
+  // console.log(request.method)
+  console.log(data)
+  console.log(persistedData)
   switch (request.method) {
-    case 'fireCronjob':
+    case 'sendNotification':
 
-      let i = data.length - 1;
+      let i = 0;
       // console.log(`Data length is ${data.length}`)
-      while (i >= 0) {
-
+      while (i < data.length) {
+        console.log("here")
+        console.log(i)
 
         // console.log(`printing data for ${i}`)
         // console.log(data[i])
 
+
         if ( data[i].to === accounts[0] && data[i].timeStamp > lastTimestamp) {
-          // console.log("Sending notification")
+          console.log("Sending notification")
           await wallet.request({
             method: 'snap_manageState',
             params: ['update', { lastNotifiedBlock: `${data[i].blockNumber}`, lastTimestamp: `${data[i].timeStamp}`, accounts: accounts }],
@@ -72,7 +74,7 @@ export const onCronjob: OnCronjobHandler = async ({ request }) => {
           // });
 
           let msg = await spamCheckMessage(data[i].from, data[i].blockNumber, data[i].contractAddress);
-          
+
           return wallet.request({
             method: 'snap_notify',
             params: [
@@ -84,7 +86,7 @@ export const onCronjob: OnCronjobHandler = async ({ request }) => {
           });
         }
         // console.log(`Notification was send previously for ${i}`)
-        i--;
+        i++;
       }
       break;
 

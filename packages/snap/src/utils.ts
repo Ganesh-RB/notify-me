@@ -29,7 +29,7 @@ All endpoints url : https://docs.etherscan.io/getting-started/endpoint-urls
 export const getApiEndPoint = (accountNo: string, startBlock: number) => {
 
     //return `https://api-goerli.etherscan.io/api?module=account&action=txlist&address=${accountNo}&tag&startblock=${startBlock}&endblock=99999999&page=1&offset=10&sort=desc&apikey=FTEX18HGQZCHFNEQSVXMY5G5Z23JU3DJP2`
-    return `https://api-goerli.etherscan.io/api?module=account&action=tokentx&address=${accountNo}&tag&startblock=${startBlock}&endblock=99999999&page=1&offset=10&sort=desc&apikey=FTEX18HGQZCHFNEQSVXMY5G5Z23JU3DJP2`
+    return `https://api-goerli.etherscan.io/api?module=account&action=tokentx&address=${accountNo}&tag&startblock=${startBlock}&endblock=99999999&page=1&offset=100&sort=asc&apikey=FTEX18HGQZCHFNEQSVXMY5G5Z23JU3DJP2`
 
 }
 
